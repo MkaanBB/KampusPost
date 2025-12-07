@@ -1,34 +1,48 @@
 import React, { useState } from 'react';
-import { View, Text, Button, StyleSheet } from 'react-native';
-import CustomInput from './CustomInput';
+import { View, Text, TextInput, Button, StyleSheet, Alert } from 'react-native';
 
-const LoginScreen = () => {
+const LoginScreen = ({ navigation }: any) => {
   const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [sifre, setSifre] = useState('');
 
-  // Butona basınca çalışacak fonksiyon
-  const handleLogin = () => {
-    console.log('E-posta:', email);
-    console.log('Şifre:', password);
+  const girisYap = () => {
+    if (email === '' || sifre === '') {
+      Alert.alert('Hata', 'DOLDUR Kİ KULLANABİL.');
+      return;
+    }
+    navigation.navigate('Home');
   };
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Giriş Yap</Text>
-
-      <CustomInput
-        placeholder="E-posta"
-        value={email}
+      <Text style={styles.baslik}>KAMPUS POST</Text>
+      
+      <TextInput 
+        style={styles.input} 
+        placeholder="E-posta" 
+        value={email} 
         onChangeText={setEmail}
       />
-      <CustomInput
-        placeholder="Şifre"
-        value={password}
-        onChangeText={setPassword}
-        secureTextEntry
+      
+      <TextInput 
+        style={styles.input} 
+        placeholder="Şifre" 
+        value={sifre} 
+        onChangeText={setSifre} 
+        secureTextEntry 
       />
 
-      <Button title="Giriş Yap" onPress={handleLogin} />
+      <View style={styles.butonKutusu}>
+        <Button title="KAMPUS POST'a GİRİŞ YAP" onPress={girisYap} />
+      </View>
+      
+      <View style={styles.butonKutusu}>
+        <Button 
+          title="Kayıt Ol" 
+          color="red" 
+          onPress={() => navigation.navigate('Register')} 
+        />
+      </View>
     </View>
   );
 };
@@ -37,14 +51,26 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#01ccffff',
+    padding: 20,
+    backgroundColor: '#00e1ffff', 
   },
-  title: {
-    fontSize: 65,
+  baslik: {
+    fontSize: 24,
     fontWeight: 'bold',
-    marginBottom: 30,
+    marginBottom: 20,
+    textAlign: 'center',
   },
+  input: {
+    borderWidth: 1,
+    borderColor: '#92cbe2ff', 
+    padding: 10,
+    marginBottom: 15,
+    borderRadius: 5,
+  },
+  butonKutusu: {
+    marginBottom: 10,
+    width: '100%',
+  }
 });
 
 export default LoginScreen;
